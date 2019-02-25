@@ -1,4 +1,7 @@
 from django.db import models
+from django.http import request
+
+# from .forms import CommentForm
 
 
 class Category(models.Model):
@@ -39,12 +42,16 @@ class Post(models.Model):
     ) #при удалении категории поле "категория" в статье будет задана как "null"
     tags = models.ManyToManyField(Tag, verbose_name="Теги")
     title = models.CharField("Название статьи", max_length=250)
+    slug = models.SlugField("url", max_length=250, null=True)
     text = models.TextField("Текст статьи")
     created = models.DateTimeField("Дата создания", auto_now_add=True)
     pub_date = models.DateTimeField("Дата публикации", auto_now_add=True)
 
     def __str__(self):
         return self.title
+
+    def get_comments(self):
+        return Comment.objects.filter(post__slug=self.slug)
 
     class Meta:
         verbose_name = "Статья"
@@ -64,7 +71,7 @@ class Comment(models.Model):
     created = models.DateTimeField("Дата написания", auto_now_add=True)
 
     def __str__(self):
-        return {}.format(self.post.title)
+        return "{}".format(self.post.title)
 
     class Meta:
         verbose_name = "Комментарий"

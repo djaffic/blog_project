@@ -1,27 +1,27 @@
 {% extends "base.html" %}
-
+{% load category_tag %}
 {% block content %}
     <div class="col-md-8">
 
-    <h1 class="my-4">Новости и статьи блога
-        <small>Только самые интересные новости</small>
-    </h1>
+        <h1 class="my-4">Новости и статьи блога<br/>
+            <small style="font-size: 50%;">Только самые интересные новости</small></>
+        </h1>0
 
-    <!-- Blog Post -->
-    {% for post in posts %}
-        <div class="card mb-4">
-            <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-            <div class="card-body">
-                <h2 class="card-title"><a href="{% url "post_detail_url"  pk=post.id %}">{{ post.title }}</a></h2>
-                <p class="card-text">{{ post.text }}</p>
-                <a href="#" class="btn btn-primary">Подробнее &rarr;</a>
+        <!-- Blog Post -->
+        {% for post in posts %}
+            <div class="card mb-4">
+                <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+                <div class="card-body">
+                    <h2 class="card-title"><a href="{% url "post_detail_url"  slug=post.slug %}">{{ post.title }}</a>
+                    </h2>
+                    <p class="card-text">{{ post.text }}</p>
+                    <a href="{% url "post_detail_url"  slug=post.slug %}" class="btn btn-primary">Подробнее &rarr;</a>
+                </div>
+                <div class="card-footer text-muted">
+                    Опубликовано {{ post.pub_date }} Категория:
+                    <a href="{% url "post_by_category_url" slug=post.category.slug %}">{{ post.category }}</a>
+                </div>
             </div>
-            <div class="card-footer text-muted">
-                Posted on {{ post.pub_date }} category
-                <a href="{% url "post_by_category_url" slug=post.category.slug %}">{{ post.category }}</a>
-            </div>
-        </div>
-    {% endfor %}
-
+        {% endfor %}
     </div>
 {% endblock %}

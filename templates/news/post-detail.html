@@ -1,22 +1,22 @@
 {% extends "base.html" %}
-
+{% load category_tag %}
 {% block content %}
-     <!-- Post Content Column -->
-      <div class="col-lg-8">
+    <!-- Post Content Column -->
+    <div class="col-lg-8">
 
         <!-- Title -->
         <h1 class="mt-4">{{ post.title }}</h1>
 
         <!-- Author -->
         <p class="lead">
-          категория:
-          <a href="#">{{ post.category }}</a>
+            Категория:
+            <a href="{% url "post_by_category_url" slug=post.category.slug %}">{{ post.category }}</a>
         </p>
 
         <hr>
 
         <!-- Date/Time -->
-        <p>Posted on {{ post.pub_date }}</p>
+        <p>Опубликовано {{ post.pub_date }}</p>
 
         <hr>
 
@@ -33,51 +33,31 @@
 
         <!-- Comments Form -->
         <div class="card my-4">
-          <h5 class="card-header">Оставьте свой комментарий</h5>
-          <div class="card-body">
-            <form>
-              <div class="form-group">
-                <textarea class="form-control" rows="3"></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">Отправить комментарий</button>
-            </form>
-          </div>
-        </div>
-
-        <!-- Single Comment -->
-        <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-          <div class="media-body">
-            <h5 class="mt-0">Пользователь</h5>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-          </div>
-        </div>
-
-        <!-- Comment with nested comments -->
-        <div class="media mb-4">
-          <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-          <div class="media-body">
-            <h5 class="mt-0">Пользователь</h5>
-            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-
-            <div class="media mt-4">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-              <div class="media-body">
-                <h5 class="mt-0">Пользователь</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </div>
+            <h5 class="card-header">Оставьте свой комментарий</h5>
+            <div class="card-body">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <textarea
+                                class="form-control" rows="3"
+                                required placeholder="Оставьте здесь свой комментарий" name="comment">
+                        </textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Отправить комментарий</button>
+                </form>
             </div>
-
-            <div class="media mt-4">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-              <div class="media-body">
-                <h5 class="mt-0">Пользователь</h5>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-              </div>
-            </div>
-
-          </div>
         </div>
 
-      </div>
+        <!-- Comments -->
+        {% for comment in post.get_comments %}
+            <div class="media mb-4">
+                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                <div class="media-body">
+                    <h5 class="mt-0">Пользователь</h5>
+                    {{ comment.text }}
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
 {% endblock %}
