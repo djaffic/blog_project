@@ -42,7 +42,7 @@ class Post(models.Model):
     ) #при удалении категории поле "категория" в статье будет задана как "null"
     tags = models.ManyToManyField(Tag, verbose_name="Теги")
     title = models.CharField("Название статьи", max_length=250)
-    slug = models.SlugField("url", max_length=250, null=True)
+    slug = models.SlugField("url", max_length=250)
     text = models.TextField("Текст статьи")
     created = models.DateTimeField("Дата создания", auto_now_add=True)
     pub_date = models.DateTimeField("Дата публикации", auto_now_add=True)
