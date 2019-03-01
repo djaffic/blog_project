@@ -9,5 +9,5 @@ class CommentForm(forms.ModelForm):
         fields = ("text",)
         # exclude = ("post",)
         widgets = {
-            'text': forms.Textarea(attrs={"cols":80, "class": "form-control"})
+            'text': forms.Textarea(attrs={"class": "form-control", "placeholder": "Оставьте свой комментарий"})
         }

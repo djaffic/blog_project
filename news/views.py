@@ -5,6 +5,7 @@ from django.views import View
 from .models import *
 from .forms import CommentForm
 
+
 class PostList(View):
     """Получаем списка статей и передаем их в шаблон"""
     def get(self, request, slug=None):
@@ -22,13 +23,10 @@ class PostDetail(View):
         form = CommentForm()
         return render(request, "news/post-detail.html", {"post": post, "form": form})
 
-
-class AddComment(View):
-    """Добавление комментариев"""
     def post(self, request, pk):
         form = CommentForm(request.POST)
         if form.is_valid():
-            form.save(commit=False)
+            form = form.save(commit=False)
             form.post = Post.objects.get(id=pk)
             form.save()
             return redirect("post_list_url")

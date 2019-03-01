@@ -39,9 +39,8 @@
                     {% csrf_token %}
                     {{ form }}
 {#                    <div class="form-group">#}
-{#                        <textarea#}
-{#                                class="form-control" rows="3"#}
-{#                                required placeholder="Оставьте здесь свой комментарий" name="comment">#}
+{#                        <textarea class="form-control" rows="3" required placeholder="Оставьте здесь свой комментарий" name="text">#}
+{#                            #}
 {#                        </textarea>#}
 {#                    </div>#}
                     <button type="submit" class="btn btn-primary">Отправить комментарий</button>
@@ -49,16 +48,17 @@
             </div>
         </div>
 
-        <!-- Comments -->
-        {% for comment in post.get_comments %}
-            <div class="media mb-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                    <h5 class="mt-0">Пользователь</h5>
-                    {{ comment.text }}
-                </div>
+
+    <!-- Comments -->
+    {% for comment in post.get_comments %}
+        <div class="media mb-4">
+            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+            <div class="media-body">
+                <h5 class="mt-0">Пользователь</h5>
+                {{ comment.text }}
             </div>
-        {% endfor %}
+        </div>
+    {% endfor %}
 
     </div>
 {% endblock %}
