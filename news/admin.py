@@ -1,7 +1,60 @@
 from django.contrib import admin
+from django.contrib.auth.models import User, Group
 from .models import *
 
-admin.site.register(Category)
-admin.site.register(Tag)
-admin.site.register(Post)
+
+admin.site.site_title = "Blog Project"
+admin.site.site_header = "Blog Project"
+
+
+class CommentAdmin(admin.StackedInline):
+    """Комментарии"""
+    model = Comment
+    extra = 1
+    # max_num = 100
+    list_display = ("id", "post", "moderation")
+    list_display_links = ("post",)
+    list_editable = ("moderation",)
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    """Статьи"""
+    list_display = ("id", "title", "pub_date")
+    list_display_links = ("title",)
+    search_fields = ("title", "text",)
+    list_filter = ("created", "pub_date", "category")
+    list_per_page = 20
+    inlines = [CommentAdmin]
+    actions_on_bottom = True
+    actions_on_top = False
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'text')
+        }),
+        ("Категории/Теги", {
+            'classes': ('collapse',),
+            'fields': ('category', 'tags')
+        }),
+    )
+    # filter_horizontal = ("tags",)
+    # filter_vertical = ("tags",)/
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    """Категории"""
+    prepopulated_fields = {'slug':("name",)}
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    """Теги"""
+    prepopulated_fields = {'slug':("name",)}
+
+
+# admin.site.register(Category, CategoryAdmin)
+# admin.site.register(Tag, TagAdmin)
+# admin.site.register(Post, PostAdmin)
 admin.site.register(Comment)
+
+
+admin.site.unregister(User)
+admin.site.unregister(Group)
