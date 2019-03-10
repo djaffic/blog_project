@@ -1,0 +1,3 @@
+{% for post in posts %}
+    <p><a style="color: red;" class="dropdown-item" href="{% url "post_detail_url" slug=post.slug %}">{{ post.title }}</a></p>
+{% endfor %}

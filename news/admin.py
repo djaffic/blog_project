@@ -3,8 +3,8 @@ from django.contrib.auth.models import User, Group
 from .models import *
 
 
-admin.site.site_title = "Blog Project"
-admin.site.site_header = "Blog Project"
+admin.site.site_title = "Проект блога"
+admin.site.site_header = "Проект блога"
 
 
 class CommentAdmin(admin.StackedInline):

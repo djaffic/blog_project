@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+{% load post_tag %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ page.title }}</title>
+</head>
+<body>
+    <h2>Это главная страница</h2>
+    {{ page.content }}
+    <hr>
+    {% post_list %}
+</body>
+</html>
