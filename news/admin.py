@@ -20,22 +20,23 @@ class CommentAdmin(admin.StackedInline):
 class PostAdmin(admin.ModelAdmin):
     """Статьи"""
     list_display = ("id", "title", "pub_date")
+    prepopulated_fields = {'slug':("title",)}
     list_display_links = ("title",)
     search_fields = ("title", "text",)
-    list_filter = ("created", "pub_date", "category")
+    list_filter = ("created", "updated", "pub_date", "published", "category")
     list_per_page = 20
     inlines = [CommentAdmin]
     actions_on_bottom = True
     actions_on_top = False
-    fieldsets = (
-        (None, {
-            'fields': ('title', 'text')
-        }),
-        ("Категории/Теги", {
-            'classes': ('collapse',),
-            'fields': ('category', 'tags')
-        }),
-    )
+    # fieldsets = (
+    #     (None, {
+    #         'fields': ('title', 'text')
+    #     }),
+    #     ("Категории/Теги", {
+    #         'classes': ('collapse',),
+    #         'fields': ('category', 'tags')
+    #     }),
+    # )
     # filter_horizontal = ("tags",)
     # filter_vertical = ("tags",)/
 
@@ -50,11 +51,6 @@ class TagAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug':("name",)}
 
 
-# admin.site.register(Category, CategoryAdmin)
-# admin.site.register(Tag, TagAdmin)
-# admin.site.register(Post, PostAdmin)
 admin.site.register(Comment)
-
-
 admin.site.unregister(User)
 admin.site.unregister(Group)

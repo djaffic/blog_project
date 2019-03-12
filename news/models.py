@@ -8,6 +8,7 @@ class Category(models.Model):
     """Модель категорий для статей"""
     name = models.CharField("Название категория", max_length=150)
     slug = models.SlugField("url", unique=True)
+    template_name = models.CharField("Название шаблона", max_length=100, default="news/post-list.html")
 
     def __str__(self):
         return self.name
@@ -40,12 +41,23 @@ class Post(models.Model):
         on_delete=models.SET_NULL,
         null=True
     ) #при удалении категории поле "категория" в статье будет задана как "null"
+    author = models.ForeignKey(
+        "auth.User",
+        on_delete=models.CASCADE,
+        verbose_name="Автор статьи",
+        blank=True
+    )
     tags = models.ManyToManyField(Tag, verbose_name="Теги")
     title = models.CharField("Название статьи", max_length=250)
-    slug = models.SlugField("url", max_length=250)
+    sub_title = models.CharField("Подзаголовок", max_length=150, blank=False)
+    slug = models.SlugField("url", max_length=250, unique=True, blank=False)
     text = models.TextField("Текст статьи")
+    is_private = models.BooleanField("Отображение для всех", default=True, null=True)
+    template_name = models.CharField("Шаблон статьи", max_length=200, default="news/post-detail.html", blank=False)
     created = models.DateTimeField("Дата создания", auto_now_add=True)
-    pub_date = models.DateTimeField("Дата публикации", auto_now_add=True)
+    updated = models.DateTimeField("Дата обновления статьи", auto_now_add=True, auto_now=False)
+    pub_date = models.DateTimeField("Дата публикации", auto_now_add=True, blank=False)
+    published = models.BooleanField("Опубликовано", default=True, blank=False)
 
     def __str__(self):
         return self.title
