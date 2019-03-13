@@ -2,6 +2,8 @@ from django.db import models
 from django.http import request
 
 # from .forms import CommentForm
+from django.urls import reverse
+from django.utils import timezone
 
 
 class Category(models.Model):
@@ -9,6 +11,7 @@ class Category(models.Model):
     name = models.CharField("Название категория", max_length=150)
     slug = models.SlugField("url", unique=True)
     template_name = models.CharField("Название шаблона", max_length=100, default="news/post-list.html")
+    pagination = models.PositiveSmallIntegerField("Количество статей на страницу", default=10)
 
     def __str__(self):
         return self.name
@@ -52,18 +55,32 @@ class Post(models.Model):
     sub_title = models.CharField("Подзаголовок", max_length=150, blank=False)
     slug = models.SlugField("url", max_length=250, unique=True, blank=False)
     text = models.TextField("Текст статьи")
+    image = models.ImageField("Картинка статьи", upload_to="post/", blank=True)
     is_private = models.BooleanField("Отображение для всех", default=True, null=True)
     template_name = models.CharField("Шаблон статьи", max_length=200, default="news/post-detail.html", blank=False)
     created = models.DateTimeField("Дата создания", auto_now_add=True)
-    updated = models.DateTimeField("Дата обновления статьи", auto_now_add=True, auto_now=False)
-    pub_date = models.DateTimeField("Дата публикации", auto_now_add=True, blank=False)
-    published = models.BooleanField("Опубликовано", default=True, blank=False)
+    updated = models.DateTimeField(
+        "Дата обновления статьи",
+        default=timezone.now,
+        blank=True,
+        null=True
+    )
+    pub_date = models.DateTimeField(
+        "Дата публикации",
+        default=timezone.now,
+        blank=False,
+        null=True
+    )
+    published = models.BooleanField("Опубликовать?", default=True, blank=False)
 
     def __str__(self):
         return self.title
 
     def get_comments(self):
         return Comment.objects.filter(post__slug=self.slug)
+
+    def get_absolute_url(self):
+        return reverse('post_detail_url', kwargs={"category": self.category.slug, "slug": self.slug})
 
     class Meta:
         verbose_name = "Статья"
@@ -77,7 +94,7 @@ class Comment(models.Model):
         Post,
         verbose_name="Статья",
         on_delete=models.CASCADE
-    ) #при удалении статьи комментарии будут удаляться
+    )
     text = models.TextField("Комментарий")
     moderation = models.BooleanField("Разрешено к публикации", default=False)
     created = models.DateTimeField("Дата написания", auto_now_add=True)

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load category_tag %}
+{#{% load category_tag %}#}
 {% block content %}
     <div class="col-md-8">
 
@@ -12,14 +12,14 @@
             <div class="card mb-4">
                 <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
                 <div class="card-body">
-                    <h2 class="card-title"><a href="{% url "post_detail_url"  slug=post.slug %}">{{ post.title }}</a>
+                    <h2 class="card-title"><a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
                     </h2>
                     <p class="card-text">{{ post.text }}</p>
-                    <a href="{% url "post_detail_url"  slug=post.slug %}" class="btn btn-primary">Подробнее &rarr;</a>
+                    <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Подробнее &rarr;</a>
                 </div>
                 <div class="card-footer text-muted">
                     Опубликовано {{ post.pub_date }} Категория:
-                    <a href="{% url "post_by_category_url" slug=post.category.slug %}">{{ post.category }}</a>
+{#                    <a href="#">{{ post.category }}</a>#}
                 </div>
             </div>
         {% endfor %}
