@@ -20,6 +20,7 @@ class PostList(ListView):
                 published=True,
                 pub_date__lte=datetime.now(),
             )
+            print(post_list)
             if self.request.user.is_authenticated:
                 posts = post_list
             else:
@@ -37,29 +38,35 @@ class PostList(ListView):
 
 class PostDetail(DetailView):
     """Вывод одной статьи в шаблон"""
-    model = Post
+    # model = Post
     template_name = "news/post-detail.html"
     # context_object_name = "post"
-
     # def get_queryset(self):
-    #     post = Post.objects.get(
-    #             category__slug=self.kwargs.get('category'),
-    #             slug=self.kwargs.get('slug'),
-    #             published=True,
-    #             pub_date__lte=datetime.now(),
-    #         )
-    #     return post
+    #     queryset = super(PostDetail, self).get_queryset()
+    #     return queryset.filter(post__user=self.request.user)
+    queryset = Post.objects.filter(published=True, pub_date__lte=timezone.now())
+    print(queryset)
+
+    def get_object(self):
+        post = super(PostDetail, self).get_object()
+        print(post)
+        if self.request.user.is_authenticated:
+            self.template_name = post.template_name
+            print(self.template_name)
+            return post
+        else:
+            raise Http404
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = CommentForm()
         return context
 
-    def post(self, request, slug):
+    def post(self, request, category, slug):
         form = CommentForm(request.POST)
         if form.is_valid():
             form = form.save(commit=False)
-            form.post = Post.objects.get(slug=slug)
+            form.post = Post.objects.get(category__slug=category, slug=slug)
             form.save()
             return redirect("post_list_url")
         else:
