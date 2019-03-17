@@ -45,7 +45,6 @@ class PostDetail(DetailView):
     #     queryset = super(PostDetail, self).get_queryset()
     #     return queryset.filter(post__user=self.request.user)
     queryset = Post.objects.filter(published=True, pub_date__lte=timezone.now())
-    print(queryset)
 
     def get_object(self):
         post = super(PostDetail, self).get_object()

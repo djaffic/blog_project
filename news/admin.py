@@ -1,3 +1,4 @@
+from mptt.admin import MPTTModelAdmin
 from django.contrib import admin
 from django.contrib.auth.models import User, Group
 from .models import *
@@ -41,9 +42,10 @@ class PostAdmin(admin.ModelAdmin):
     # filter_vertical = ("tags",)/
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(MPTTModelAdmin):
     """Категории"""
     prepopulated_fields = {'slug':("name",)}
+    mptt_level_indent = 20
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):

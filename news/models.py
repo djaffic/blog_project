@@ -4,22 +4,27 @@ from django.http import request
 # from .forms import CommentForm
 from django.urls import reverse
 from django.utils import timezone
+from mptt.models import MPTTModel, TreeForeignKey
 
 
-class Category(models.Model):
+class Category(MPTTModel):
     """Модель категорий для статей"""
     name = models.CharField("Название категория", max_length=150)
     slug = models.SlugField("url", unique=True)
     template_name = models.CharField("Название шаблона", max_length=100, default="news/post-list.html")
     pagination = models.PositiveSmallIntegerField("Количество статей на страницу", default=10)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     def __str__(self):
         return self.name
 
+    class MPTTMeta:
+        level_attr = 'mptt_level'
+        order_insertion_by = ['name']
+
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
-        ordering = ["name"]
 
 
 class Tag(models.Model):
@@ -88,7 +93,7 @@ class Post(models.Model):
         ordering = ["-pub_date"]
 
 
-class Comment(models.Model):
+class Comment(MPTTModel):
     """Модель комментариев к статье"""
     post = models.ForeignKey(
         Post,
@@ -98,9 +103,18 @@ class Comment(models.Model):
     text = models.TextField("Комментарий")
     moderation = models.BooleanField("Разрешено к публикации", default=False)
     created = models.DateTimeField("Дата написания", auto_now_add=True)
+    parent = TreeForeignKey(
+        'self',
+        on_delete=models.CASCADE,
+        null=True, blank=True,
+        related_name='children'
+    )
 
     def __str__(self):
         return "{}".format(self.post.title)
+
+    class MPTTMeta:
+        level_attr = 'mptt_level'
 
     class Meta:
         verbose_name = "Комментарий"
