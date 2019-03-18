@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {#{% load category_tag %}#}
+{% load mptt_tags %}
 {% block content %}
     <!-- Post Content Column -->
     <div class="col-lg-8">
@@ -17,7 +18,9 @@
         <p>Опубликовано {{ post.pub_date }}</p>
         <hr>
         <!-- Preview Image -->
-        <img class="img-fluid rounded" src="{{ post.image.url }}" alt="">
+        {% if post.image %}
+            <img class="img-fluid rounded" src="{{ post.image.url }}" alt="">
+        {% endif %}
         <hr>
         <!-- Post Content -->
         <p class="lead">{{ post.text }}</p>
@@ -26,20 +29,38 @@
         <div class="card my-4">
             <h5 class="card-header">Оставьте свой комментарий</h5>
             <div class="card-body">
-                <form action="{{ post.get_absolute_url }}" method="post">
-                    {% csrf_token %}
-                    {{ form }}
-                    <button type="submit" class="btn btn-primary">Отправить комментарий</button>
-                </form>
+                {% if user.is_authenticated %}
+                    <form action="{{ post.get_absolute_url }}" method="post">
+                        {% csrf_token %}
+                        {{ form }}
+                        <button type="submit" class="btn btn-primary">Отправить комментарий</button>
+                    </form>
+                {% else %}
+                    <h4>Чтобы оставить комментарий, пожалуйста, авторизуйтесь или зарегистрируйтесь!</h4>
+                {% endif %}
             </div>
         </div>
 
         <!-- Comments -->
+{#        {% if comments %}#}
+{#            <ul class="root">#}
+{#                {% recursetree comments %}#}
+{#                    <li>#}
+{#                        {{ node.name }}#}
+{#                        {% if not node.is_leaf_node %}#}
+{#                            <ul class="children">#}
+{#                                {{ children }}#}
+{#                            </ul>#}
+{#                        {% endif %}#}
+{#                    </li>#}
+{#                {% endrecursetree %}#}
+{#            </ul>#}
+{#        {% endif %}#}
         {% for comment in post.get_comments %}
             <div class="media mb-4">
                 <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
                 <div class="media-body">
-                    <h5 class="mt-0">Пользователь</h5>
+                    <h5 class="mt-0">{{ comment.user.username }}</h5>
                     {{ comment.text }}
                 </div>
             </div>

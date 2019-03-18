@@ -46,13 +46,15 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.vk',
-    'allauth.socialaccount.providers.mailru',
+    # 'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.vk',
+    # 'allauth.socialaccount.providers.mailru',
     # our apps
     'news',
     'pages',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,6 +80,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'news.context_processors.categories_all',
+                # 'news.context_processors.all_comments',
             ],
         },
     },
@@ -154,6 +157,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/accounts/login'
 
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
 ACCOUNT_EMAIL_REQUIRED=True
+
+# EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackends'

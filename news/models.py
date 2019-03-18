@@ -1,5 +1,5 @@
 from django.db import models
-from django.http import request
+from django.contrib.auth.models import User
 
 # from .forms import CommentForm
 from django.urls import reverse
@@ -50,7 +50,7 @@ class Post(models.Model):
         null=True
     ) #при удалении категории поле "категория" в статье будет задана как "null"
     author = models.ForeignKey(
-        "auth.User",
+        User,
         on_delete=models.CASCADE,
         verbose_name="Автор статьи",
         blank=True
@@ -95,6 +95,12 @@ class Post(models.Model):
 
 class Comment(MPTTModel):
     """Модель комментариев к статье"""
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name="Пользователь",
+        null=True
+    )
     post = models.ForeignKey(
         Post,
         verbose_name="Статья",

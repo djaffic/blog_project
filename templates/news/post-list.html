@@ -7,20 +7,20 @@
         <h1 class="my-4">Новости и статьи блога<br/>
             <small style="font-size: 50%;">Только самые интересные новости</small>
         </h1>
-    {% if categories %}
-        <ul class="root">
-            {% recursetree categories %}
-                <li>
-                    {{ node.name }}
-                    {% if not node.is_leaf_node %}
-                       <ul class="children">
-                            {{ children }}
-                        </ul>
-                    {% endif %}
-                </li>
-            {% endrecursetree %}
-        </ul>
-    {% endif %}
+{#        {% if categories %}#}
+{#            <ul class="root">#}
+{#                {% recursetree categories %}#}
+{#                    <li>#}
+{#                        {{ node.name }}#}
+{#                        {% if not node.is_leaf_node %}#}
+{#                           <ul class="children">#}
+{#                                {{ children }}#}
+{#                            </ul>#}
+{#                        {% endif %}#}
+{#                    </li>#}
+{#                {% endrecursetree %}#}
+{#            </ul>#}
+{#        {% endif %}#}
         <!-- Blog Post -->
         {% for post in posts %}
             <div class="card mb-4">
