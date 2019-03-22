@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+
+{# Load the tag library #}
+{% load bootstrap4 %}
 {#{% load category_tag %}#}
 {% load mptt_tags %}
 {% block content %}
@@ -30,10 +33,13 @@
             <h5 class="card-header">Оставьте свой комментарий</h5>
             <div class="card-body">
                 {% if user.is_authenticated %}
-                    <form action="{{ post.get_absolute_url }}" method="post">
+                    <form action="{{ post.get_absolute_url }}" method="post" class="form">
+                        {{ form.non_field_errors }}
                         {% csrf_token %}
-                        {{ form }}
+                        {% bootstrap_form form%}
+                        {% buttons %}
                         <button type="submit" class="btn btn-primary">Отправить комментарий</button>
+                        {% endbuttons %}
                     </form>
                 {% else %}
                     <h4>Чтобы оставить комментарий, пожалуйста, авторизуйтесь или зарегистрируйтесь!</h4>
@@ -42,29 +48,29 @@
         </div>
 
         <!-- Comments -->
-{#        {% if comments %}#}
-{#            <ul class="root">#}
-{#                {% recursetree comments %}#}
-{#                    <li>#}
-{#                        {{ node.name }}#}
-{#                        {% if not node.is_leaf_node %}#}
-{#                            <ul class="children">#}
-{#                                {{ children }}#}
-{#                            </ul>#}
-{#                        {% endif %}#}
-{#                    </li>#}
-{#                {% endrecursetree %}#}
-{#            </ul>#}
-{#        {% endif %}#}
-        {% for comment in post.get_comments %}
-            <div class="media mb-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                <div class="media-body">
-                    <h5 class="mt-0">{{ comment.user.username }}</h5>
-                    {{ comment.text }}
-                </div>
-            </div>
-        {% endfor %}
+        {% if post.get_comments %}
+            <ul class="root">
+                {% recursetree post.get_comments %}
+                    <li>
+                        {{ node.text }}
+                        {% if not node.is_leaf_node %}
+                            <ul class="children">
+                                {{ children }}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endrecursetree %}
+            </ul>
+        {% endif %}
+{#        {% for comment in post.get_comments %}#}
+{#            <div class="media mb-4">#}
+{#                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">#}
+{#                <div class="media-body">#}
+{#                    <h5 class="mt-0">{{ comment.user.username }}</h5>#}
+{#                    {{ comment.text }}#}
+{#                </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
 
     </div>
 {% endblock %}

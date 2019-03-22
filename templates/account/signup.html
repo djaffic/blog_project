@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+
+{% block content %}
+    <h2 class="alert-heading">Sign In</h2>
+    <form action="/" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-outline-success">Зарегистрироваться</button>
+        {% endbuttons %}
+    </form>
+{% endblock %}

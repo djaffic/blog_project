@@ -42,12 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     #plugins
     'mptt',
+    'bootstrap4',
     #authentication
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     # 'allauth.socialaccount.providers.google',
-    # 'allauth.socialaccount.providers.vk',
+    'allauth.socialaccount.providers.vk',
     # 'allauth.socialaccount.providers.mailru',
     # our apps
     'news',
@@ -80,7 +81,6 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'news.context_processors.categories_all',
-                # 'news.context_processors.all_comments',
             ],
         },
     },
@@ -159,7 +159,18 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login'
 
+
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
-ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_UNIQUE = True
+
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 5
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/'
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+ACCOUNT_USERNAME_BLACKLIST = ["admin", "administrator", "root", "moderator"]
+
+ACCOUNT_USERNAME_MIN_LENGTH = 6
+
+
 
 # EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackends'

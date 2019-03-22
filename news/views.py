@@ -1,5 +1,6 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
+from django.db.models import Q
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.views import View
@@ -67,6 +68,7 @@ class PostDetail(DetailView):
     # @verified_email_required
     def post(self, request, category, slug):
         form = CommentForm(request.POST)
+        # if request.user.is_authenticated:
         if form.is_valid():
             form = form.save(commit=False)
             form.user = request.user
@@ -75,3 +77,34 @@ class PostDetail(DetailView):
             return redirect("post_list_url")
         else:
             return HttpResponse(status=400)
+        # else:
+        #     return Http404
+
+
+class Search(View):
+    """Поиск по статьям и категориям"""
+    def get(self, request):
+        search = request.GET.get("search", None)
+        context = Post.objects.filter(Q(title__icontains=search) |
+                                      Q(category__name__icontains=search))
+        # print(context.exists())
+        # if not context.exists():
+        #     context = Post.objects.filter(category__name__iexact=search)
+        return render(request, "news/post-list.html", {"posts": context})
+
+
+class DateFilter(View):
+    """Фильтр новостей по дате"""
+    def get(self, request, pk):
+        posts = Post.objects.all()
+        if pk == 1:
+            now = datetime.now() - timedelta(minutes=60*24)
+            posts = posts.filter(pub_date__gte=datetime.now().day)
+        elif pk == 2:
+            now = datetime.now().today() - timedelta(minutes=60 * 24 * 7)
+            posts = posts.filter(pub_date__gte=now)
+        elif pk == 3:
+            now = datetime.now() - timedelta(minutes=60 * 24 * 30)
+            posts = posts.filter(pub_date__gte=now)
+
+        return render(request, "news/post-list.html", {"posts": posts})
