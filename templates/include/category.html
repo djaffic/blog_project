@@ -1,0 +1,28 @@
+{#{% load  category_tag %}#}
+{% load mptt_tags %}
+<div class="card-body">
+    <div class="row">
+{#                {% for category in categories %}#}
+{#                    <div class="col-lg-6">#}
+{#                        <ul class="list-unstyled mb-0">#}
+{#                            <li>#}
+{#                                <a href="{% url 'post_by_category_url' category=category.slug %}">{{ category.name }}</a>#}
+{#                            </li>#}
+{#                        </ul>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+        <ul class="root list-unstyled ml-3 mb-0">
+            {% recursetree categories %}
+                <li>
+                     <a href="{% url 'post_by_category_url' category=node.slug %}">{{ node.name }}</a>
+{#                    {{ node.name }}#}
+{#                    {% if not node.is_leaf_node %}#}
+{#                        <ul class="children">#}
+{#                            {{ children }}#}
+{#                        </ul>#}
+{#                    {% endif %}#}
+                </li>
+            {% endrecursetree %}
+        </ul>
+    </div>
+</div>

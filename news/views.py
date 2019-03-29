@@ -23,7 +23,7 @@ class PostList(ListView):
                 published=True,
                 pub_date__lte=datetime.now(),
             )
-            # print(post_list)
+            # print(post_list.last().category.template_name)
             if self.request.user.is_authenticated:
                 posts = post_list
             else:

@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Page(models.Model):
@@ -22,3 +23,7 @@ class Page(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        print(self.slug)
+        return reverse('page', kwargs={'page': self.slug})

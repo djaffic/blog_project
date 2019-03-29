@@ -4,5 +4,46 @@
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-blog-home/blob/master/LICENSE)
  */
 body {
-  padding-top: 56px;
+    padding-top: 56px;
+}
+html, body, .full-width {
+    height: 100%;
+}
+/*.full-width {*/
+    /*margin: auto 0;*/
+/*}*/
+.full-width-text {
+    font-style: italic;
+    font-family: 'Courgette', cursive;
+    letter-spacing: 2px;
+    /*color: #fff;*/
+}
+
+.logo_text {
+    /*font-family: ;*/
+}
+
+
+
+/*media*/
+
+@media (max-width: 740px) {
+  .full-width {
+    height: 400px;
+  }
+}
+@media (min-width: 800px) and (max-width: 850px) {
+  .full-width {
+    height: 500px;
+  }
+}
+@media (min-width: 850px) and (max-width: 1199px) {
+    .full-width {
+        height: 800px;
+    }
+}
+@media (min-width: 1200px) and (max-width: 1920px) {
+    .full-width {
+        height: 1200px;
+    }
 }

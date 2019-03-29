@@ -1,0 +1,18 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}
+    {{ block.super }} - Обо мне
+{% endblock title %}
+
+{% block top_image %}{% endblock top_image %}
+{% block content %}
+    <div class="col-md-8">
+        <h1 class="h1-responsive">{{ page.title }}</h1>
+        <div class="text-justify">
+            {{ page.content }}
+        </div>
+    </div>
+
+
+    {% include 'include/sidebar.html' %}
+{% endblock content %}

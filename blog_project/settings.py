@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # our apps
     'news',
     'pages',
+    'contactform',
 ]
 
 SITE_ID = 1
