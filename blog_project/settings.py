@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     # our apps
     'news',
     'pages',
-    'contactform',
+    'contact',
 ]
 
 SITE_ID = 1
@@ -93,6 +93,9 @@ AUTHENTICATION_BACKENDS = (
 
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
+
+    # 'an email backend'
+    'django.core.mail.backends.smtp.EmailBackend',
 )
 
 
@@ -174,4 +177,14 @@ ACCOUNT_USERNAME_MIN_LENGTH = 6
 
 
 
-# EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackends'
+# EMAIL_BACKEND settings
+EMAIL_HOST = 'cp416.agava.net'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'noreply@vniir.org'
+EMAIL_HOST_PASSWORD = 'Ghbotgrf29'
+EMAIL_USE_SSL = True
+
+
+#messages settings
+MY_INFO = 80
+MESSAGE_LEVEL = MY_INFO
