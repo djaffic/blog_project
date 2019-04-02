@@ -47,17 +47,17 @@ class PostDetail(DetailView):
     # def get_queryset(self):
     #     queryset = super(PostDetail, self).get_queryset()
     #     return queryset.filter(post__user=self.request.user)
-    queryset = Post.objects.filter(published=True, pub_date__lte=timezone.now())
+    # queryset = Post.objects.filter(published=True, pub_date__lte=timezone.now())
     # print(queryset)
 
-    def get_object(self):
-        post = super(PostDetail, self).get_object()
-        # print(post)
-        # if self.request.user.is_authenticated:
-        # self.template_name = post.template_name
-        # print(self.template_name)
-        return post
-        # else:
+    # def get_object(self):
+    #     post = super(PostDetail, self).get_object()
+    #     # print(post)
+    #     # if self.request.user.is_authenticated:
+    #     # self.template_name = post.template_name
+    #     # print(self.template_name)
+    #     return post
+    #     # else:
         #     raise Http404
 
     def get_context_data(self, **kwargs):

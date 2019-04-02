@@ -54,7 +54,8 @@ class Post(models.Model):
         User,
         on_delete=models.CASCADE,
         verbose_name="Автор статьи",
-        blank=True
+        blank=True,
+        null=True
     )
     tags = models.ManyToManyField(Tag, verbose_name="Теги")
     title = models.CharField("Название статьи", max_length=250)
@@ -109,12 +110,13 @@ class Comment(MPTTModel):
         on_delete=models.CASCADE
     )
     text = models.TextField("Комментарий")
-    moderation = models.BooleanField("Разрешено к публикации", default=False)
-    created = models.DateTimeField("Дата написания", auto_now_add=True)
+    moderation = models.BooleanField("Разрешено к публикации", default=False, null=True)
+    created = models.DateTimeField("Дата написания", auto_now_add=True, null=True)
     parent = TreeForeignKey(
         'self',
         on_delete=models.CASCADE,
-        null=True, blank=True,
+        null=True,
+        blank=True,
         related_name='children'
     )
 
