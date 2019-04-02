@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
 from mptt.models import MPTTModel, TreeForeignKey
+from photologue.models import Gallery
 
 
 class Category(MPTTModel):
@@ -61,6 +62,7 @@ class Post(models.Model):
     slug = models.SlugField("url", max_length=250, unique=True, blank=False)
     text = models.TextField("Текст статьи")
     image = models.ImageField("Картинка статьи", upload_to="post/", blank=True)
+    gallery = models.ForeignKey(Gallery, verbose_name="Галерея", blank=True, null=True, on_delete=models.SET_NULL)
     is_private = models.BooleanField("Отображение для всех", default=True, null=True)
     template_name = models.CharField("Шаблон статьи", max_length=200, default="news/post-detail.html", blank=False)
     created = models.DateTimeField("Дата создания", auto_now_add=True)

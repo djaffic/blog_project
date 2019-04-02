@@ -50,10 +50,14 @@ INSTALLED_APPS = [
     # 'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.vk',
     # 'allauth.socialaccount.providers.mailru',
+    #gallery
+    'photologue',
+    'sortedm2m',
     # our apps
     'news',
     'pages',
     'contact',
+    'profiles',
 ]
 
 SITE_ID = 1
@@ -188,3 +192,7 @@ EMAIL_USE_SSL = True
 #messages settings
 MY_INFO = 80
 MESSAGE_LEVEL = MY_INFO
+
+# PHOTOLOGUE GALLERY
+PHOTOLOGUE_GALLERY_SAMPLE_SIZE = 10
+PHOTOLOGUE_IMAGE_FIELD_MAX_LENGTH = 300

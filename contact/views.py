@@ -7,18 +7,6 @@ from django.views import View
 from .forms import ContactForm
 
 
-# def contact(request):
-#     if request.method == "POST":
-#         form = ContactForm(request.POST)
-#
-#         if form.is_valid():
-#             form.save()
-#             return HttpResponseRedirect('thanks')
-#     else:
-#         form = ContactForm()
-#         return render(request, 'contact/contact.html', {'form': form})
-
-
 class ContactFormView(View):
     """отправка формы обратной связи"""
     def get(self, request):
