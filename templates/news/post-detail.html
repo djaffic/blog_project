@@ -25,7 +25,11 @@
             <!-- Post Content -->
             <p class="lead">{{ post.text }}</p>
             <hr>
-
+            <p>
+                {% for photo in post.gallery.photos.all %}
+                    <img src="{{ photo.image.url }}" alt="">
+                {% endfor %}
+            </p>
             <hr>
             <!-- Comments Form -->
             <div class="card my-4">

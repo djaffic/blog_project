@@ -25,5 +25,7 @@ class Page(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        print(self.slug)
-        return reverse('page', kwargs={'page': self.slug})
+        if self.slug:
+            return reverse('pages:page', kwargs={'page': self.slug})
+        else:
+            return reverse('pages:page')

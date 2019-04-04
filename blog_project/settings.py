@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'pages',
     'contact',
     'profiles',
+    'menu',
 ]
 
 SITE_ID = 1

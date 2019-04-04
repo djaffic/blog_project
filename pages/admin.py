@@ -4,6 +4,7 @@ from .models import Page
 
 class PageAdmin(admin.ModelAdmin):
     """Админика страницы"""
+    list_display = ("title", "id")
     prepopulated_fields = {"slug": ("title",)}
 
 
