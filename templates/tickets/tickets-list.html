@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block top_image %}
+
+{% endblock top_image %}
+
+{% block content %}
+    <div class="col-12">
+        <p><a href="{% url 'ticket_create_url' %}" class="btn btn-success">Создать</a></p>
+    </div>
+
+    <div class="col-12">
+        {% for ticket in tickets %}
+                <p class="card">{{ ticket.user }} - {{ ticket.title }} - {{ ticket.room }}</p>
+                <a href="{% url 'ticket_update_url' pk=ticket.id %}" class="btn btn-sm btn-primary">Редактировать</a>
+                <a href="{% url 'ticket_delete_url' pk=ticket.id %}" class="btn btn-sm btn-danger">Удалить</a>
+        {% endfor %}
+    </div>
+
+
+{% endblock content %}
